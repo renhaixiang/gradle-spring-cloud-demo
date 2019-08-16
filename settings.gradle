@@ -1,0 +1,4 @@
+rootProject.name = 'gradle-spring-cloud-demo'
+include 'sub-demo'
+include 'sub-demo-client'
+

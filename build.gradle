@@ -1,0 +1,60 @@
+group 'com.renhaixiang.demo'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+//gradle 代码块 build时优先执行代码块 自身需要的资源存放
+buildscript{
+    ext{
+        // 定义常用变量，统一springBoot的版本
+        springBootVersion='2.0.5.RELEASE'
+        springCloudVersion = 'Finchley.SR1'
+    }
+
+    repositories{
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+    }
+    // 用来打包
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+//设定当前所有的项目的配置
+allprojects {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        jcenter()
+        mavenCentral()
+    }
+    //指定编码格式
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}
+//设定当前模块项目中的配置
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    //spring boot 插件
+    apply plugin: 'org.springframework.boot'
+    //A Gradle plugin that provides Maven-like dependency management functionality
+    apply plugin: 'io.spring.dependency-management'
+    dependencies {
+        //使用springboot-web组件
+        compile('org.springframework.boot:spring-boot-starter-web')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
+    dependencyManagement {
+        imports {
+            //加上此配置后，如果需要引用springcloud的组件，就不需要再提供版本信息
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+    jar {
+        manifest.attributes provider: 'gradle'
+    }
+}
