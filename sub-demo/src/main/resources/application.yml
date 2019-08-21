@@ -1,6 +1,8 @@
-server:
+server: #服务端口号
   port: 8000
 spring:
+  profiles:
+    active: prod # 配置读哪个环境的yml
   application:
     name: sub-demo
 eureka:
@@ -9,3 +11,8 @@ eureka:
     fetch-registry: false #表示不拉取， 做集群设置为true
   instance:
     prefer-ip-address: true
+
+
+get-application:
+  name: renhaixiang
+  mobile: 17865193328

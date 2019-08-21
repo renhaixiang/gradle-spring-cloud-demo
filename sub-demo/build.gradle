@@ -12,5 +12,6 @@ repositories {
 dependencies {
     //注册中心服务端的组件
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-eureka-server', version: '1.4.6.RELEASE'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
 
 }
